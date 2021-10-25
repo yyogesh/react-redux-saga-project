@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { all, call, put, takeLatest } from "redux-saga/effects";
 
 import { fetchTodoFailure, fetchTodoSuccess } from "./actions";
@@ -13,14 +13,14 @@ const getTodos = () =>
 
 function* fetchTodoSaga() {
     try {
-        const response = yield call(getTodos);
+        const response: AxiosResponse<ITodo[]> = yield call(getTodos);
         yield put(
             fetchTodoSuccess({
                 todos: response.data,
             })
         );
     }
-    catch (e) {
+    catch (e: any) {
         yield put(
             fetchTodoFailure({
                 error: e.message,
